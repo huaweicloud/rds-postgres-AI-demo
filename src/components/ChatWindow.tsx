@@ -19,6 +19,8 @@ export default function ChatWindow({ room, profile }: Props) {
   const [typingUsers, setTypingUsers] = useState<Map<string, number>>(new Map())
   const [onlineUsers, setOnlineUsers] = useState<PresencePayload[]>([])
   const [uploading, setUploading] = useState(false)
+  // 加载失败的历史图片 id 集合（桶被删或对象失效时显示占位而非破图图标）
+  const [brokenImages, setBrokenImages] = useState<Set<number>>(new Set())
   // user_id -> username 映射：CDC 推送的事件只含 messages 表自身字段，
   // 不含嵌套的 profiles 关系，需要用映射表解析发送者用户名
   const [profilesMap, setProfilesMap] = useState<Map<string, string>>(new Map())
@@ -223,13 +225,19 @@ export default function ChatWindow({ room, profile }: Props) {
                   <span className="msg-time">{formatTime(msg.created_at)}</span>
                 </div>
                 {msg.content && <div className="msg-text">{msg.content}</div>}
-                {msg.attachment_url && (
+                {msg.attachment_url && !brokenImages.has(msg.id) && (
                   <img
                     className="msg-image"
                     src={msg.attachment_url}
                     alt="图片消息"
                     loading="lazy"
+                    onError={() =>
+                      setBrokenImages((prev) => new Set(prev).add(msg.id))
+                    }
                   />
+                )}
+                {msg.attachment_url && brokenImages.has(msg.id) && (
+                  <div className="msg-image-fallback">图片已失效或不可访问</div>
                 )}
               </div>
             </div>

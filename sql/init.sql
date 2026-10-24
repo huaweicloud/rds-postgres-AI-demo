@@ -193,3 +193,11 @@ CREATE POLICY attachments_upload ON storage.objects
 CREATE POLICY attachments_read ON storage.objects
     FOR SELECT TO authenticated
     USING (bucket_id = 'chat-attachments');
+
+-- ------------------------------------------------------------
+-- 6. 通知 Data API（PostgREST）重新加载 schema 缓存
+-- 通过 Studio 执行时 Studio 会自动通知；通过 psql 等直连执行时
+-- 由本语句兜底，确保新建的表立即可通过 REST API 访问
+-- ------------------------------------------------------------
+
+NOTIFY pgrst, 'reload schema';

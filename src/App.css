@@ -405,6 +405,16 @@ input {
   display: block;
 }
 
+.msg-image-fallback {
+  margin-top: 4px;
+  padding: 14px 16px;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  font-size: 12px;
+  color: var(--text-muted);
+  background: #f8fafc;
+}
+
 .typing-bar {
   min-height: 24px;
   padding: 0 20px 4px;

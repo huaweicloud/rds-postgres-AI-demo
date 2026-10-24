@@ -14,7 +14,7 @@
 
 ## 前提条件
 
-- 已创建 RDS for PostgreSQL 实例，并开通 Supabase 应用（公测期间免费）。操作指引参见 [RDS Supabase 应用介绍](https://support.huaweicloud.com/usermanual-rds-pg/rds_supabase_01.html)。
+- 已创建 RDS  Supabase 应用（公测期间免费）。操作指引参见 [RDS Supabase 应用介绍](https://support.huaweicloud.com/usermanual-rds-pg/rds_supabase_01.html)。
 - 本地已安装 Node.js 18 及以上版本。
 
 ## 快速开始
