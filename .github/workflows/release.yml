@@ -1,0 +1,46 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'rds-supabase-showcase-email-auth'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Package source
+        run: |
+          git archive --format=zip -o rds-supabase-showcase-email-auth.zip HEAD -- ':(exclude).github/workflows/release.yml'
+      - name: Create or update release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_NOTES: |
+            简体中文 | English
+
+            **中文**
+
+            基于华为云 RDS Supabase 邮箱认证的前端示例应用源码包，完整覆盖邮箱注册确认、密码登录、Magic Link 免密登录、密码重置、邮箱更换与重新认证全流程。
+
+            - 使用指南见压缩包内 README.md（英文版：README_EN.md）
+            - 最佳实践文档：https://support.huaweicloud.com/bestpractice-rds-pg/rds_pg_ai_0001.html
+
+            ---
+
+            **English**
+
+            Source package of the frontend demo application for email authentication with Huawei Cloud RDS Supabase, covering the complete workflow: email signup with confirmation, password sign-in, Magic Link passwordless login, password reset, email change, and re-authentication.
+
+            - See README.md (English version: README_EN.md) inside the package for the usage guide
+            - Best practice: https://support.huaweicloud.com/bestpractice-rds-pg/rds_pg_ai_0001.html
+        run: |
+          if gh release view "${GITHUB_REF_NAME}" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release delete "${GITHUB_REF_NAME}" --repo "$GITHUB_REPOSITORY" --yes
+          fi
+          gh release create "${GITHUB_REF_NAME}" rds-supabase-showcase-email-auth.zip \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "RDS Supabase Email Authentication Demo" --notes "$RELEASE_NOTES"
