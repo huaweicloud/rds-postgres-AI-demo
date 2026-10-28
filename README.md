@@ -1,3 +1,5 @@
+[English](README.en.md) | 简体中文
+
 # RDS PostgreSQL AI 应用实践演示合集
 
 华为云云数据库 RDS for PostgreSQL 持续面向 AI 应用场景提供丰富的数据库能力。本仓库汇集基于这些能力构建的最佳实践演示 Demo：每个演示围绕一个典型的数据库 AI 应用场景，提供可直接运行的完整示例工程，并以独立分支维护。
