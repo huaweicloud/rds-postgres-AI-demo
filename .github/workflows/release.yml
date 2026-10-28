@@ -39,12 +39,8 @@ jobs:
             - Best practice: https://support.huaweicloud.com/bestpractice-rds-pg/rds_pg_ai_0002.html
         run: |
           if gh release view "${GITHUB_REF_NAME}" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
-            gh release edit "${GITHUB_REF_NAME}" --repo "$GITHUB_REPOSITORY" \
-              --title "RDS Supabase GitHub SSO" --notes "$RELEASE_NOTES"
-          else
-            gh release create "${GITHUB_REF_NAME}" rds-supabase-showcase-github-sso.zip \
-              --repo "$GITHUB_REPOSITORY" \
-              --title "RDS Supabase GitHub SSO" --notes "$RELEASE_NOTES"
+            gh release delete "${GITHUB_REF_NAME}" --repo "$GITHUB_REPOSITORY" --yes
           fi
-          gh release upload "${GITHUB_REF_NAME}" rds-supabase-showcase-github-sso.zip \
-            --repo "$GITHUB_REPOSITORY" --clobber
+          gh release create "${GITHUB_REF_NAME}" rds-supabase-showcase-github-sso.zip \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "RDS Supabase GitHub SSO" --notes "$RELEASE_NOTES"
