@@ -1,3 +1,5 @@
+[English](README.en.md) | 简体中文
+
 # RDS Supabase GitHub SSO 示例应用
 
 基于华为云 RDS Supabase（AI 应用开发平台）Auth 服务接入 GitHub OAuth 2.0 单点登录的前端示例应用：将 GitHub 配置为第三方身份提供商，用户无需另行注册账号，直接使用 GitHub 凭证即可完成安全认证与登录。示例完整展示了从认证流程配置、会话管理到用户信息展示的前端实现方案，帮助开发者快速理解并复用相同模式。
@@ -114,7 +116,7 @@ npm run dev
 ├── .gitignore
 ├── CONTRIBUTING.md               # 贡献指南
 ├── LICENSE                       # Apache License 2.0
-├── README.md
+├── README.md / README.en.md      # 项目介绍（中文 / English）
 ├── index.html                    # 首页界面
 ├── package.json                  # 打包依赖配置
 ├── package-lock.json
@@ -151,7 +153,6 @@ npm run dev
 ## 参考文档
 
 - [RDS Supabase AI应用开启GitHub第三方认证登录（最佳实践）](https://support.huaweicloud.com/bestpractice-rds-pg/rds_pg_ai_0002.html)
-- [RDS Supabase GitHub SSO演示源码配置指导](https://support.huaweicloud.com/bestpractice-rds-pg/rds_pg_ai_0004.html)
 - [RDS Supabase应用](https://support.huaweicloud.com/usermanual-rds-pg/rds_supabase_00.html)
 - [用户认证Auth配置管理](https://support.huaweicloud.com/usermanual-rds-pg/rds_supabase_20.html)
 
