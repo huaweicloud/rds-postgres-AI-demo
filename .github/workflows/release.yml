@@ -1,0 +1,31 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'rds-supabase-showcase-github-sso'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Package source
+        run: |
+          git archive --format=zip -o rds-supabase-showcase-github-sso.zip HEAD -- ':(exclude).github/workflows/release.yml'
+      - name: Create release and upload asset
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_NOTES: |
+            基于华为云 RDS Supabase Auth 接入 GitHub OAuth 2.0 单点登录的前端示例应用源码包。
+
+            使用指南见压缩包内 README.md。
+            最佳实践文档：https://support.huaweicloud.com/bestpractice-rds-pg/rds_pg_ai_0002.html
+        run: |
+          gh release create "${GITHUB_REF_NAME}" rds-supabase-showcase-github-sso.zip \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "RDS Supabase GitHub SSO" \
+            --notes "$RELEASE_NOTES"
