@@ -1,0 +1,47 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'rds-supabase-showcase-*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Package source
+        run: |
+          git archive --format=zip -o "${GITHUB_REF_NAME}.zip" HEAD -- ':(exclude).github/workflows/release.yml'
+      - name: Create release and upload asset
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_NOTES: |
+            简体中文 | English
+
+            **中文**
+
+            基于华为云 RDS Supabase 的 Realtime 与 RLS（行级安全策略）构建的实时聊天示例应用源码包：支持单聊/群聊、图片消息、正在输入提示、在线状态展示，数据隔离由数据库层强制保障，无需自建 WebSocket 服务、无需手写后端代码。
+
+            - 使用指南见压缩包内 README.md
+            - RDS Supabase 应用介绍：https://support.huaweicloud.com/usermanual-rds-pg/rds_supabase_01.html
+
+            ---
+
+            **English**
+
+            Source package of the realtime chat demo application built on Huawei Cloud RDS Supabase with Realtime and RLS (Row Level Security): 1:1 and group chat, image messages, typing indicators, and presence, with data isolation enforced at the database layer — no self-built WebSocket service or backend code required.
+
+            - See README.md inside the package for the usage guide
+            - RDS Supabase application guide: https://support.huaweicloud.com/usermanual-rds-pg/rds_supabase_01.html
+        run: |
+          if gh release view "${GITHUB_REF_NAME}" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release delete "${GITHUB_REF_NAME}" --repo "$GITHUB_REPOSITORY" --yes
+          fi
+          gh release create "${GITHUB_REF_NAME}" "${GITHUB_REF_NAME}.zip" \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "RDS Supabase Realtime Chatroom" \
+            --notes "$RELEASE_NOTES"
