@@ -149,7 +149,6 @@ Links and codes are valid for 1 hour by default. See [Custom Email Templates](ht
 ## References
 
 - [RDS Supabase: connect to an SMTP server and enable email authentication (best practice)](https://support.huaweicloud.com/bestpractice-rds-pg/rds_pg_ai_0001.html)
-- [RDS Supabase email authentication demo source code guide (best practice)](https://support.huaweicloud.com/bestpractice-rds-pg/rds_pg_ai_0003.html)
 - [Auth configuration management (user guide)](https://support.huaweicloud.com/usermanual-rds-pg/rds_supabase_20.html)
 - [Supabase Email Templates (official docs)](https://supabase.com/docs/guides/auth/auth-email-templates)
 

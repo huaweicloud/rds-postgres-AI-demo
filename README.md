@@ -149,7 +149,6 @@ RDS Supabase 默认使用内置英文邮件模板，支持两类自定义方案�
 ## 参考文档
 
 - [RDS Supabase AI 应用对接 SMTP 服务器并开启邮箱认证（最佳实践）](https://support.huaweicloud.com/bestpractice-rds-pg/rds_pg_ai_0001.html)
-- [RDS Supabase 邮箱认证演示源码配置指导（最佳实践）](https://support.huaweicloud.com/bestpractice-rds-pg/rds_pg_ai_0003.html)
 - [用户认证 Auth 配置管理（用户指南）](https://support.huaweicloud.com/usermanual-rds-pg/rds_supabase_20.html)
 - [Supabase Email Templates（官方文档）](https://supabase.com/docs/guides/auth/auth-email-templates)
 
