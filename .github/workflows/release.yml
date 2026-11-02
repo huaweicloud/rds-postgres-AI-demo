@@ -1,0 +1,46 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "rds-supabase-showcase-company-tech-research"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Package source
+        run: |
+          git archive --format=zip -o rds-supabase-showcase-company-tech-research.zip HEAD -- ':(exclude).github/workflows/release.yml'
+      - name: Create or update release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_NOTES: |
+            English | 简体中文
+
+            **English**
+
+            Source package of StackDowser, a full-stack AI agent application on Huawei Cloud RDS Supabase. Enter a company name, and three agents find its tech stack from public sources (DNS, job boards, engineering blogs), with a quote and link for every finding. It uses Auth, RLS, Postgres functions as a job queue, Realtime, pgvector, pg_cron and Storage (backed by OBS), and its schema was managed through the Supabase MCP server.
+
+            - See README.md inside the package for the usage guide (Chinese version: README.zh-CN.md)
+            - Introduction to RDS Supabase: https://support.huaweicloud.com/usermanual-rds-pg/rds_supabase_01.html
+
+            ---
+
+            **中文**
+
+            StackDowser 源码包：基于华为云 RDS Supabase 的全栈 AI Agent 应用。输入公司名称，三个 Agent 从公开来源（DNS、招聘网站、技术博客）找出该公司的技术栈，每条结论都附带原文引用和链接。应用使用了 Auth、RLS、基于 Postgres 函数的任务队列、Realtime、pgvector、pg_cron 和 Storage（基于 OBS），数据库变更均通过 Supabase MCP 完成。
+
+            - 使用指南见压缩包内 README.zh-CN.md（英文版：README.md）
+            - RDS Supabase 简介：https://support.huaweicloud.com/usermanual-rds-pg/rds_supabase_01.html
+        run: |
+          if gh release view "${GITHUB_REF_NAME}" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release delete "${GITHUB_REF_NAME}" --repo "$GITHUB_REPOSITORY" --yes
+          fi
+          gh release create "${GITHUB_REF_NAME}" rds-supabase-showcase-company-tech-research.zip \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "RDS Supabase Company Tech Research Demo" --notes "$RELEASE_NOTES"

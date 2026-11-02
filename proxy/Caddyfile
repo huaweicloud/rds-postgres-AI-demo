@@ -1,0 +1,13 @@
+:80 {
+	# Only the client-facing Supabase APIs. Studio and pg-meta are never forwarded.
+	@supabase path /rest/v1/* /auth/v1/* /realtime/v1/* /storage/v1/*
+	handle @supabase {
+		reverse_proxy {$SUPABASE_URL} {
+			header_up Host {upstream_hostport}
+		}
+	}
+
+	handle {
+		reverse_proxy web:3000
+	}
+}

@@ -1,0 +1,26 @@
+{
+  "name": "@stackdowser/worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "start": "node dist/index.js",
+    "dev": "tsx watch src/index.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "embed:technologies": "node dist/scripts/embed-technologies.js"
+  },
+  "dependencies": {
+    "@mozilla/readability": "0.6.0",
+    "@stackdowser/db": "0.1.0",
+    "@supabase/supabase-js": "2.118.0",
+    "ipaddr.js": "2.5.0",
+    "linkedom": "0.18.14",
+    "p-limit": "7.3.3",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "tsx": "4.23.15"
+  }
+}

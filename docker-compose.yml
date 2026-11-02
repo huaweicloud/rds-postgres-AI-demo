@@ -1,0 +1,54 @@
+services:
+  # The only public entry point. It serves the app and forwards the Supabase API paths,
+  # so the browser talks to one origin and the database host can stay private.
+  proxy:
+    image: caddy:2.11.7
+    ports: ["80:80"]
+    environment:
+      SUPABASE_URL: ${SUPABASE_URL}
+    volumes:
+      - ./proxy/Caddyfile:/etc/caddy/Caddyfile:ro
+    depends_on: [web]
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      dockerfile: web/Dockerfile
+    env_file: .env
+    restart: unless-stopped
+
+  worker:
+    build:
+      context: .
+      dockerfile: worker/Dockerfile
+    env_file: .env
+    environment:
+      SEARXNG_URL: http://searxng:8080
+      EMBEDDINGS_URL: http://embeddings:80
+    depends_on: [searxng, embeddings]
+    restart: unless-stopped
+
+  searxng:
+    image: searxng/searxng:2026.10.25-54ca1d9cf
+    environment:
+      SEARXNG_BASE_URL: http://searxng:8080/
+      SEARXNG_SECRET: ${SEARXNG_SECRET}
+    volumes:
+      - ./searxng:/etc/searxng:rw
+    restart: unless-stopped
+
+  embeddings:
+    image: ghcr.io/huggingface/text-embeddings-inference:cpu-1.9.4
+    # The default batch size makes warmup allocate 16 GB for Qwen3's 32k context. Our inputs
+    # are short (technology names, one stack profile), so a small batch is plenty.
+    command: >-
+      --model-id ${EMBEDDINGS_MODEL:-Qwen/Qwen3-Embedding-0.6B}
+      --max-batch-tokens 4096 --max-client-batch-size 32 --auto-truncate
+    volumes:
+      - tei-data:/data # model weights, downloaded once
+    restart: unless-stopped
+
+# searxng and embeddings have no "ports": reachable only inside this network
+volumes:
+  tei-data:

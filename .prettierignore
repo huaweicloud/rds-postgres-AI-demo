@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.next/
+package-lock.json
+packages/db/src/database.types.ts
+supabase/migrations/
+.claude/

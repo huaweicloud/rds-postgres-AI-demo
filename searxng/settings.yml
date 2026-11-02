@@ -1,0 +1,9 @@
+use_default_settings:
+  engines:
+    keep_only: [google, bing, duckduckgo, brave]
+server:
+  # Overridden by the SEARXNG_SECRET environment variable.
+  secret_key: "replace with: openssl rand -hex 32"
+  limiter: false # internal instance; our worker is the only client
+search:
+  formats: [html, json] # json is off by default; the API needs it
